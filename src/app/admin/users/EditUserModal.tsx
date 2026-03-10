@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { X, Shield, User, CheckCircle, Loader2, Save } from 'lucide-react';
+import { X, Shield, Loader2, Save } from 'lucide-react';
 import { updateProfileAdmin } from '../actions';
 import { useLocale } from '@/context/LocaleContext';
 

@@ -2,9 +2,7 @@
 
 import Link from "next/link";
 import {
-  Smartphone,
   Globe,
-  Users,
   Zap,
   QrCode,
   BarChart3,
@@ -12,11 +10,7 @@ import {
   Shield,
   ArrowRight,
   Check,
-  CreditCard,
-  Star,
-  CheckCircle2,
 } from "lucide-react";
-import { useState } from "react";
 import { useLocale } from "@/context/LocaleContext";
 
 export default function Home() {

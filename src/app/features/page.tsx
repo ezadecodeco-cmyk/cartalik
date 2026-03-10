@@ -9,18 +9,12 @@ import {
   Shield,
   Smartphone,
   CreditCard,
-  Users,
   MessageCircle,
   MapPin,
   Star,
   Download,
   Palette,
-  Languages,
-  Moon,
-  Wallet,
   UserPlus,
-  LineChart,
-  Link as LinkIcon,
   ArrowRight,
 } from "lucide-react";
 import Link from "next/link";

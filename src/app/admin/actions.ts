@@ -2,7 +2,6 @@
 
 import { createClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 
 export async function markOrderProcessed(orderId: string) {
   const supabase = await createClient();
@@ -60,7 +59,7 @@ export async function createAccountFromOrder(formData: FormData) {
   const { data: order } = await supabase.from('card_orders').select('full_name').eq('id', orderId).single();
 
   // Create the user in Auth
-  const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
+  const { error: createError } = await supabaseAdmin.auth.admin.createUser({
     email,
     password,
     email_confirm: true, // Auto-confirm the email so they can log in instantly
@@ -310,7 +309,7 @@ export async function renewSubscriptionAdmin(profileId: string) {
   // If the update affected 0 rows, that means there was no subscription. We must insert it.
   if (!updatedSub || updatedSub.length === 0) {
     // If no subscription existed, try inserting instead
-    const { data: insertedData, error: insertError } = await supabaseAdmin
+    const { error: insertError } = await supabaseAdmin
       .from('subscriptions')
       .insert({
         profile_id: profileId,

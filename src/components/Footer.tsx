@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { CreditCard } from "lucide-react";
+
 import { useLocale } from "@/context/LocaleContext";
 
 export function Footer() {

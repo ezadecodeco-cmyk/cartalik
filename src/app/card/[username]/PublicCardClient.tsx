@@ -88,7 +88,7 @@ END:VCARD`;
                 <div className="absolute inset-0 rounded-full bg-emerald-400/20 blur-2xl scale-125 opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
                 <div className="relative z-10 p-1 rounded-full bg-gradient-to-tr from-emerald-400/40 via-white/20 to-transparent">
                     {profile.photo_url ? (
-                      <img src={profile.photo_url} alt="Profile" className="w-36 h-36 rounded-full object-cover border-4 border-black/40" />
+                      <img src={profile.photo_url} alt={profile.name || "Profile"} className="w-36 h-36 rounded-full object-cover border-4 border-black/40" />
                     ) : (
                       <div className="w-36 h-36 rounded-full bg-white/10 flex items-center justify-center text-5xl font-light tracking-tighter" style={{ color: fontColor }}>
                         {initials}

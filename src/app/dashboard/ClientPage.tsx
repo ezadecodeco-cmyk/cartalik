@@ -11,15 +11,9 @@ import {
   Camera,
   Plus,
   Trash2,
-  ExternalLink,
-  Shield,
-  Clock,
-  CheckCircle,
-  AlertTriangle,
   Wand2,
-  Lightbulb,
-  ChevronRight,
   Eye,
+  Shield,
   Smartphone,
   Globe,
   X,
@@ -27,15 +21,11 @@ import {
   Loader2,
   Palette,
   GripVertical,
-  Zap,
   Users,
   ShoppingBag,
   Phone,
-  Mail,
-  MessageSquare,
   Package,
-  PlusCircle,
-  Pencil
+  PlusCircle
 } from "lucide-react";
 
 import { useRef } from "react";
@@ -192,7 +182,7 @@ function ProfileSection({ profile }: { profile: any }) {
           <div className="relative group">
             <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-slate-200 shadow-lg group-hover:border-accent transition-all relative">
               {profile?.photo_url ? (
-                <img src={profile.photo_url} alt="Profile" className="w-full h-full object-cover" />
+                <img src={profile.photo_url} alt={profile.name || "Profile"} className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full gradient-accent flex items-center justify-center text-white text-2xl font-bold">
                   {initials}

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, X, CreditCard, ArrowRight } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useLocale } from "@/context/LocaleContext";
 import LanguageSwitcher from "./LanguageSwitcher";
 
