@@ -29,12 +29,15 @@ export default async function PublicCardPage(props: {
   }
 
   // Record an analytics view event (fire-and-forget but with error logging)
-  supabase.from("analytics_events").insert({
-    profile_id: profile.id,
-    event_type: "view",
-  }).then(({ error }) => {
-    if (error) console.error("Analytics insert error:", error.message);
-  });
+  try {
+    const { error: analyticsError } = await supabase.from("analytics_events").insert({
+      profile_id: profile.id,
+      event_type: "view",
+    });
+    if (analyticsError) console.error("Analytics insert error:", analyticsError.message);
+  } catch (err) {
+    console.error("Critical analytics error:", err);
+  }
 
   // Fetch Links
   const { data: links } = await supabase
