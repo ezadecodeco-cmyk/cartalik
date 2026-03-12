@@ -12,24 +12,45 @@ export async function createClient() {
   if (!supabaseUrl || !supabaseAnonKey) {
     console.error("Supabase Server Client: Missing environment variables")
     
-    // Create a robust Proxy that handles nested calls like .auth.getUser()
-    // and chainable calls like .from().select().eq()
-    const createMock = () => {
-      const mock: any = () => Promise.resolve({ data: null, error: null });
-      return new Proxy(mock, {
-        get: (target, prop) => {
-          if (prop === 'then') return undefined; // Avoid blocking promises
-          if (prop === 'auth') return {
-            signInWithPassword: () => Promise.resolve({ data: { user: null }, error: null }),
-            getUser: () => Promise.resolve({ data: { user: null }, error: null }),
-            signOut: () => Promise.resolve({ error: null }),
-          };
-          return createMock();
-        }
-      });
+    // Create a robust mock that mimics Supabase's structure
+    // This prevents crashes when the app tries to destructure results like { data, error }
+    const mockResult = Promise.resolve({ data: null, error: null, count: 0 });
+    const mockQuery: any = {
+      select: () => mockQuery,
+      insert: () => mockQuery,
+      update: () => mockQuery,
+      delete: () => mockQuery,
+      upsert: () => mockQuery,
+      eq: () => mockQuery,
+      neq: () => mockQuery,
+      gt: () => mockQuery,
+      lt: () => mockQuery,
+      order: () => mockQuery,
+      limit: () => mockQuery,
+      single: () => mockResult,
+      maybeSingle: () => mockResult,
+      then: (onfulfilled: any) => mockResult.then(onfulfilled),
     };
 
-    return createMock() as any
+    const mockClient = {
+      from: () => mockQuery,
+      auth: {
+        getUser: () => Promise.resolve({ data: { user: null }, error: null }),
+        getSession: () => Promise.resolve({ data: { session: null }, error: null }),
+        signInWithPassword: () => Promise.resolve({ data: { user: null, session: null }, error: null }),
+        signOut: () => Promise.resolve({ error: null }),
+      },
+      storage: {
+        from: () => ({
+          upload: () => mockResult,
+          download: () => mockResult,
+          list: () => Promise.resolve({ data: [], error: null }),
+          getPublicUrl: () => ({ data: { publicUrl: '' } }),
+        }),
+      },
+    };
+
+    return mockClient as any
   }
 
   return createServerClient(

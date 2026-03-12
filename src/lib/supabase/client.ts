@@ -6,21 +6,26 @@ export function createClient() {
 
   if (!supabaseUrl || !supabaseAnonKey) {
     console.error("Supabase Browser Client: Missing environment variables")
-    const createMock = () => {
-      const mock: any = () => Promise.resolve({ data: null, error: null });
-      return new Proxy(mock, {
-        get: (target, prop) => {
-          if (prop === 'then') return undefined;
-          if (prop === 'auth') return {
-            signInWithPassword: () => Promise.resolve({ data: { user: null }, error: null }),
-            getUser: () => Promise.resolve({ data: { user: null }, error: null }),
-            signOut: () => Promise.resolve({ error: null }),
-          };
-          return createMock();
-        }
-      });
+    const mockResult = Promise.resolve({ data: null, error: null });
+    const mockQuery: any = {
+      select: () => mockQuery,
+      insert: () => mockQuery,
+      update: () => mockQuery,
+      delete: () => mockQuery,
+      eq: () => mockQuery,
+      order: () => mockQuery,
+      single: () => mockResult,
+      then: (onfulfilled: any) => mockResult.then(onfulfilled),
     };
-    return createMock() as any
+
+    return {
+      from: () => mockQuery,
+      auth: {
+        getUser: () => Promise.resolve({ data: { user: null }, error: null }),
+        signInWithPassword: () => Promise.resolve({ data: { user: null }, error: null }),
+        signOut: () => Promise.resolve({ error: null }),
+      },
+    } as any
   }
 
   return createBrowserClient(
