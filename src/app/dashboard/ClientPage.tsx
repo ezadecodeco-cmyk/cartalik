@@ -1094,10 +1094,11 @@ function ProductsSection({ products, profile }: { products: Product[], profile: 
 export default function DashboardClientPage({ 
   profile, 
   links, 
+  subscription,
   analytics,
   leads = [],
   products = [] 
-}: Omit<DashboardClientPageProps, 'subscription'>) {
+}: DashboardClientPageProps) {
   const { t } = useLocale();
   if (!profile) return null;
   const totalTaps = analytics?.filter((e: AnalyticsEvent) => e.event_type === 'view' || e.event_type === 'tap').length || 0;
