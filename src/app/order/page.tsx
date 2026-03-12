@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { 
   CreditCard, 
@@ -19,7 +19,7 @@ import Link from 'next/link';
 import { submitCardOrder } from './actions';
 import { useLocale } from '@/context/LocaleContext';
 
-export default function OrderPage() {
+function OrderContent() {
   const { t } = useLocale();
   const searchParams = useSearchParams();
   const initialType = searchParams.get('type') === 'business' ? 'business' : 'personal';
@@ -255,5 +255,17 @@ export default function OrderPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function OrderPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-6">
+        <Loader2 className="w-8 h-8 text-accent animate-spin" />
+      </div>
+    }>
+      <OrderContent />
+    </Suspense>
   );
 }
