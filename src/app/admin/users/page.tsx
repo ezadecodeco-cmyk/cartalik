@@ -60,6 +60,7 @@ export default async function UsersManagement() {
 
   return (
     <div className="max-w-7xl mx-auto pb-20">
+      {/* Fixed: Pass initialProfiles instead of profiles to match component expectation */}
       <UsersClientTable initialProfiles={profilesWithSubs} />
     </div>
   );
