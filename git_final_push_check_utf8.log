@@ -1,0 +1,7 @@
+﻿944ae30 fix: redeploy with correct prop name (v2)
+33b8278 fix: correct UsersClientTable prop name
+3e47fe6 refactor: resolve remaining build warnings and synchronize translations (Phase 2)
+6848d79 refactor: resolve all remaining build warnings and accessibility issues
+fa31cb7 fix: restore missing icons and finalize build warning cleanup
+origin	https://ezadecodeco-cmyk@github.com/ezadecodeco-cmyk/cartalik.git (fetch)
+origin	https://ezadecodeco-cmyk@github.com/ezadecodeco-cmyk/cartalik.git (push)

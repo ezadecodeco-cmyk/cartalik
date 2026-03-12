@@ -1,0 +1,12 @@
+﻿powershell : warning: in the working copy of 'src/app/dashboard/ClientPage.tsx', LF will be replaced by CRLF the next 
+time Git touches it
+At line:1 char:1
++ powershell -Command "git add src/app/dashboard/ClientPage.tsx; git co ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[main b4c1713] fix: correct DashboardClientPage prop mismatch
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+To https://github.com/ezadecodeco-cmyk/cartalik.git
+   944ae30..b4c1713  main -> main

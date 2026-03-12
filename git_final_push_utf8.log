@@ -1,0 +1,19 @@
+﻿branch 'main' set up to track 'origin/main'.
+powershell : Everything 
+up-to-date
+At line:1 char:1
++ powershell -Command "git 
+push -u origin main" > 
+git_final_push.log 2> ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecifi    ed: 
+(Everything up    
+-to-date:String) [    ], 
+RemoteException
+    + FullyQualifiedEr    
+rorId : NativeComm    
+andError
+ 

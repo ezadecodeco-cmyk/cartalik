@@ -1,0 +1,33 @@
+﻿powershell : warning: 
+in the working copy of 
+'src/app/admin/users/pa
+ge.tsx', LF will be 
+replaced by CRLF the 
+next time Git touches 
+it
+At line:1 char:1
++ powershell -Command 
+"git add src/app/admin/
+users/page.tsx; git 
+commit ...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (warning: in t   
+ he... Git touches     
+it:String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+[main 944ae30] fix: redeploy with correct prop name (v2)
+ 1 file changed, 1 insertion(+)
+To https://github.com/m
+ohammedettouri25-source
+/cartalik.git
+   33b8278..944ae30  
+main -> main

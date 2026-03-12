@@ -1,0 +1,30 @@
+﻿On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   .gitignore
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	build_output.txt
+	build_vercel.txt
+	git_final_check.log
+	git_push.log
+	git_push_utf8.log
+	git_redeploy.log
+	git_redeploy_utf8.log
+	git_remote_check.log
+	git_remote_check_utf8.log
+	git_status.log
+	git_status_utf8.log
+
+no changes added to commit (use "git add" and/or "git commit -a")
+origin	https://github.com/mohammedettouri25-source/cartalik.git (fetch)
+origin	https://github.com/mohammedettouri25-source/cartalik.git (push)
+944ae30 fix: redeploy with correct prop name (v2)
+33b8278 fix: correct UsersClientTable prop name
+3e47fe6 refactor: resolve remaining build warnings and synchronize translations (Phase 2)
+6848d79 refactor: resolve all remaining build warnings and accessibility issues
+fa31cb7 fix: restore missing icons and finalize build warning cleanup

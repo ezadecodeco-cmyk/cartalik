@@ -1,0 +1,45 @@
+﻿On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   .gitignore
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	build_output.txt
+	build_vercel.txt
+	git_dashboard_fix.log
+	git_dashboard_fix_retry.log
+	git_dashboard_fix_utf8.log
+	git_final_check.log
+	git_final_check_utf8.log
+	git_final_push.log
+	git_final_push_check.log
+	git_final_push_check_utf8.log
+	git_final_push_utf8.log
+	git_push.log
+	git_push_utf8.log
+	git_redeploy.log
+	git_redeploy_utf8.log
+	git_remote_check.log
+	git_remote_check_utf8.log
+	git_repo_change.log
+	git_repo_change_utf8.log
+	git_status.log
+	git_status_utf8.log
+	vercel_link.log
+
+no changes added to commit (use "git add" and/or "git commit -a")
+powershell : warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+At line:1 char:1
++ powershell -Command "git status; git add src/app/dashboard/ClientPage ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[main 352702b] fix: correct DashboardClientPage prop mismatch
+ 1 file changed, 2 insertions(+)
+To https://github.com/ezadecodeco-cmyk/cartalik.git
+   b4c1713..352702b  main -> main
