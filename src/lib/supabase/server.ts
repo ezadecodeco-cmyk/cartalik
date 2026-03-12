@@ -12,18 +12,24 @@ export async function createClient() {
   if (!supabaseUrl || !supabaseAnonKey) {
     console.error("Supabase Server Client: Missing environment variables")
     
-    // Create a Proxy that returns resolving promises for any method call
-    // This allows the app to "run" without crashing, even if data is missing
-    return new Proxy({}, {
-      get: (target, prop) => {
-        // Handle common chainable methods
-        if (['from', 'select', 'insert', 'update', 'delete', 'eq', 'order', 'single', 'storage'].includes(prop as string)) {
-          return () => new Proxy({}, { get: () => () => Promise.resolve({ data: null, error: null }) });
+    // Create a robust Proxy that handles nested calls like .auth.getUser()
+    // and chainable calls like .from().select().eq()
+    const createMock = () => {
+      const mock: any = () => Promise.resolve({ data: null, error: null });
+      return new Proxy(mock, {
+        get: (target, prop) => {
+          if (prop === 'then') return undefined; // Avoid blocking promises
+          if (prop === 'auth') return {
+            signInWithPassword: () => Promise.resolve({ data: { user: null }, error: null }),
+            getUser: () => Promise.resolve({ data: { user: null }, error: null }),
+            signOut: () => Promise.resolve({ error: null }),
+          };
+          return createMock();
         }
-        // Handle auth and basic methods
-        return () => Promise.resolve({ data: { user: null }, error: null });
-      }
-    }) as any
+      });
+    };
+
+    return createMock() as any
   }
 
   return createServerClient(

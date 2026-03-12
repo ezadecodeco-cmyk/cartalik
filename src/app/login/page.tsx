@@ -57,6 +57,7 @@ function LoginContent() {
                 id="email"
                 name="email"
                 type="email"
+                autoComplete="email"
                 required
                 placeholder="you@example.com"
                 className="w-full px-4 py-3 rounded-xl bg-neutral border border-border text-sm text-primary placeholder:text-text-muted/50 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-all"
@@ -73,6 +74,7 @@ function LoginContent() {
                   id="password"
                   name="password"
                   type={showPassword ? "text" : "password"}
+                  autoComplete="current-password"
                   required
                   placeholder="••••••••"
                   className="w-full px-4 py-3 rounded-xl bg-neutral border border-border text-sm text-primary placeholder:text-text-muted/50 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-all pr-11"
