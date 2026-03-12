@@ -1,6 +1,6 @@
 'use server';
 
-import { createClient } from '@/lib/supabase/server';
+import { createClient, createAdminClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
 
 export async function markOrderProcessed(orderId: string) {
@@ -21,7 +21,6 @@ export async function markOrderProcessed(orderId: string) {
   revalidatePath('/admin');
 }
 
-import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 
 export async function createAccountFromOrder(formData: FormData) {
   const supabase = await createClient();
@@ -38,22 +37,8 @@ export async function createAccountFromOrder(formData: FormData) {
     throw new Error('Missing required fields');
   }
 
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!serviceRoleKey) {
-    throw new Error('SUPABASE_SERVICE_ROLE_KEY is perfectly required in .env.local to create accounts programmatically!');
-  }
-
-  // Use the admin API with the Service Role Key to bypass RLS and avoid logging out the admin
-  const supabaseAdmin = createSupabaseClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    serviceRoleKey,
-    {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false
-      }
-    }
-  );
+  // Use the safe admin client
+  const supabaseAdmin = await createAdminClient();
 
   // Get the order details for full name metadata
   const { data: order } = await supabase.from('card_orders').select('full_name').eq('id', orderId).single();
@@ -106,14 +91,7 @@ export async function deleteUserAdmin(userId: string) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error('Not authorized');
 
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!serviceRoleKey) throw new Error('SUPABASE_SERVICE_ROLE_KEY is required');
-
-  const supabaseAdmin = createSupabaseClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    serviceRoleKey,
-    { auth: { autoRefreshToken: false, persistSession: false } }
-  );
+  const supabaseAdmin = await createAdminClient();
 
   // 1. Delete from Auth (this triggers profile deletion due to CASCADE)
   const { error } = await supabaseAdmin.auth.admin.deleteUser(userId);
@@ -129,14 +107,7 @@ export async function updateProfileAdmin(userId: string, updates: Partial<any>) 
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error('Not authorized');
 
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!serviceRoleKey) throw new Error('SUPABASE_SERVICE_ROLE_KEY is required');
-
-  const supabaseAdmin = createSupabaseClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    serviceRoleKey,
-    { auth: { autoRefreshToken: false, persistSession: false } }
-  );
+  const supabaseAdmin = await createAdminClient();
 
   // Perform update using service role to bypass RLS
   const { error } = await supabaseAdmin
@@ -172,17 +143,8 @@ export async function createManualUser(prevState: { success: boolean, error?: st
     }
 
 
-    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-    if (!serviceRoleKey) {
-      console.error('SERVER ERROR: SUPABASE_SERVICE_ROLE_KEY is missing!');
-      return { success: false, error: 'Server configuration error' };
-    }
-
-    const supabaseAdmin = createSupabaseClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      serviceRoleKey,
-      { auth: { autoRefreshToken: false, persistSession: false } }
-    );
+    // Use the safe admin client
+    const supabaseAdmin = await createAdminClient();
 
     // 1. Create the user in Auth
     const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
@@ -244,14 +206,8 @@ export async function deactivateProfile(profileId: string) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error('Not authorized');
 
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!serviceRoleKey) throw new Error('SUPABASE_SERVICE_ROLE_KEY is required');
+  const supabaseAdmin = await createAdminClient();
 
-  const supabaseAdmin = createSupabaseClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    serviceRoleKey,
-    { auth: { autoRefreshToken: false, persistSession: false } }
-  );
 
   const { error } = await supabaseAdmin
     .from('profiles')
@@ -271,14 +227,8 @@ export async function renewSubscriptionAdmin(profileId: string) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error('Not authorized');
 
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!serviceRoleKey) throw new Error('SUPABASE_SERVICE_ROLE_KEY is required');
+  const supabaseAdmin = await createAdminClient();
 
-  const supabaseAdmin = createSupabaseClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    serviceRoleKey,
-    { auth: { autoRefreshToken: false, persistSession: false } }
-  );
 
   // 1. Calculate new end date (+6 months / ~180 days)
   const newEndDate = new Date();
@@ -335,12 +285,8 @@ export async function repairAllSubscriptions() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error('Not authorized');
 
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  const supabaseAdmin = createSupabaseClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    serviceRoleKey!,
-    { auth: { autoRefreshToken: false, persistSession: false } }
-  );
+  // Use the safe admin client
+  const supabaseAdmin = await createAdminClient();
 
   // 1. Get all profiles
   const { data: profiles } = await supabaseAdmin.from('profiles').select('id');

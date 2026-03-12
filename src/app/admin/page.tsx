@@ -1,5 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
-import { createClient as createSupabaseClient } from '@supabase/supabase-js';
+import { createClient, createAdminClient } from '@/lib/supabase/server';
 import { Activity } from 'lucide-react';
 import { redirect } from 'next/navigation';
 import DashboardContent from './DashboardContent';
@@ -41,13 +40,8 @@ export default async function AdminDashboard() {
     return redirect('/dashboard');
   }
 
-  // Use service role for admin fetches to bypass RLS
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  const supabaseAdmin = createSupabaseClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    serviceRoleKey!,
-    { auth: { autoRefreshToken: false, persistSession: false } }
-  );
+  // Use the safe admin client
+  const supabaseAdmin = await createAdminClient();
 
   // Fetch orders
   const { data: orders, error } = await supabaseAdmin
@@ -90,10 +84,9 @@ export default async function AdminDashboard() {
     );
   }
 
-  // Map subscriptions to profiles
-  const profilesWithSubs = (allProfiles || []).map(p => ({
+  const profilesWithSubs = (allProfiles || []).map((p: any) => ({
     ...p,
-    subscriptions: (allSubscriptions || []).filter(s => s.profile_id === p.id)
+    subscriptions: (allSubscriptions || []).filter((s: any) => s.profile_id === p.id)
   }));
 
   // Fetch profiles count
@@ -124,8 +117,8 @@ export default async function AdminDashboard() {
   const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
   const sixtyDaysAgo = new Date(now.getTime() - 60 * 24 * 60 * 60 * 1000);
 
-  const currentPeriod = (allProfiles || []).filter(p => new Date(p.created_at) >= thirtyDaysAgo);
-  const previousPeriod = (allProfiles || []).filter(p => {
+  const currentPeriod = (allProfiles || []).filter((p: any) => new Date(p.created_at) >= thirtyDaysAgo);
+  const previousPeriod = (allProfiles || []).filter((p: any) => {
     const d = new Date(p.created_at);
     return d >= sixtyDaysAgo && d < thirtyDaysAgo;
   });
@@ -150,7 +143,7 @@ export default async function AdminDashboard() {
     const start = new Date(now.getTime() - (daysOffset + 2) * 24 * 60 * 60 * 1000);
     const end = new Date(now.getTime() - daysOffset * 24 * 60 * 60 * 1000);
     
-    const count = currentPeriod.filter(p => {
+    const count = currentPeriod.filter((p: any) => {
       const d = new Date(p.created_at);
       return d >= start && d <= end;
     }).length;

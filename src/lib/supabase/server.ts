@@ -76,3 +76,44 @@ export async function createClient() {
     }
   )
 }
+
+export async function createAdminClient() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+
+  if (!supabaseUrl || !serviceRoleKey) {
+    console.error("Supabase Admin Client: Missing environment variables")
+    
+    const mockResult = Promise.resolve({ data: null, error: null, count: 0 });
+    const mockQuery: any = {
+      select: () => mockQuery,
+      insert: () => mockQuery,
+      update: () => mockQuery,
+      delete: () => mockQuery,
+      eq: () => mockQuery,
+      order: () => mockQuery,
+      single: () => mockResult,
+      then: (onfulfilled: any) => mockResult.then(onfulfilled),
+    };
+
+    return {
+      from: () => mockQuery,
+      auth: {
+        admin: {
+          createUser: () => Promise.resolve({ data: { user: { id: 'mock' } }, error: null }),
+          deleteUser: () => Promise.resolve({ error: null }),
+        },
+        getUser: () => Promise.resolve({ data: { user: null }, error: null }),
+        signInWithPassword: () => Promise.resolve({ data: { user: null }, error: null }),
+        signOut: () => Promise.resolve({ error: null }),
+      },
+    } as any
+  }
+
+  const { createClient: createSupabaseClient } = await import('@supabase/supabase-js')
+  return createSupabaseClient(
+    supabaseUrl,
+    serviceRoleKey,
+    { auth: { autoRefreshToken: false, persistSession: false } }
+  );
+}

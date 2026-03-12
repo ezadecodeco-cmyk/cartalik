@@ -1,6 +1,5 @@
-import { createClient } from '@/lib/supabase/server';
+import { createClient, createAdminClient } from '@/lib/supabase/server';
 import { Activity } from 'lucide-react';
-import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import { redirect } from 'next/navigation';
 import UsersClientTable from './UsersClientTable';
 
@@ -21,13 +20,8 @@ export default async function UsersManagement() {
     return redirect('/dashboard');
   }
 
-  // Use service role for admin fetches to bypass RLS
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  const supabaseAdmin = createSupabaseClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    serviceRoleKey!,
-    { auth: { autoRefreshToken: false, persistSession: false } }
-  );
+  // Use the safe admin client
+  const supabaseAdmin = await createAdminClient();
 
   // Fetch all profiles
   const { data: allProfiles, error: profilesError } = await supabaseAdmin
@@ -53,9 +47,9 @@ export default async function UsersManagement() {
   }
 
   // Map subscriptions to profiles
-  const profilesWithSubs = (allProfiles || []).map(p => ({
+  const profilesWithSubs = (allProfiles || []).map((p: any) => ({
     ...p,
-    subscriptions: (allSubscriptions || []).filter(s => s.profile_id === p.id)
+    subscriptions: (allSubscriptions || []).filter((s: any) => s.profile_id === p.id)
   }));
 
   return (
