@@ -91,37 +91,58 @@ END:VCARD`;
 
   return (
     <div 
-      className="min-h-screen flex items-start justify-center py-16 px-4 pt-24 lg:pt-32 relative overflow-hidden font-sans transition-colors duration-1000"
+      className="min-h-screen flex items-start justify-center py-20 px-5 pt-28 lg:pt-40 relative overflow-hidden font-sans selection:bg-emerald-500/30"
       style={{ backgroundColor: bgColor }}
     >
-      {/* Apple-style Animated Background */}
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-        <div className="absolute top-[-20%] left-[-10%] w-[80%] h-[80%] bg-emerald-600/10 rounded-full blur-[160px] animate-pulse" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[80%] h-[80%] bg-blue-600/5 rounded-full blur-[160px]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/40" />
+      {/* Premium Background Elements */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Dynamic Orbs */}
+        <div 
+          className="absolute top-[-10%] right-[-5%] w-[70%] h-[70%] rounded-full blur-[120px] opacity-20 animate-pulse duration-[10s]" 
+          style={{ backgroundColor: fontColor }}
+        />
+        <div 
+          className="absolute bottom-[-15%] left-[-10%] w-[80%] h-[80%] rounded-full blur-[150px] opacity-10" 
+          style={{ backgroundColor: fontColor }}
+        />
+        
+        {/* Grain Overlay */}
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay" />
+        
+        {/* Global Mesh Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60" />
       </div>
 
-      <div className="w-full max-w-[430px] relative z-10 animate-in fade-in slide-in-from-bottom-12 duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)]">
-        {/* Apple Glass Container */}
-        <div className="rounded-[4rem] shadow-[0_60px_100px_-20px_rgba(0,0,0,0.8)] border border-white/20 overflow-hidden relative backdrop-blur-[60px] bg-white/[0.08]">
-          <div className="px-9 pt-14 pb-14">
-            
+      <div className="w-full max-w-[440px] relative z-10 space-y-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 ease-out">
+        
+        {/* SECTION 1: IDENTITY CARD */}
+        <div className="group relative">
+          {/* Card Border Glow */}
+          <div className="absolute -inset-[1px] rounded-[3rem] bg-gradient-to-b from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+          
+          <div className="relative rounded-[3rem] border border-white/10 bg-white/[0.03] backdrop-blur-3xl overflow-hidden px-8 pt-12 pb-10">
             {/* Avatar Signature */}
-            <div className="flex justify-center mb-10">
-              <div className="relative group">
-                <div className="absolute inset-0 rounded-full bg-emerald-400/20 blur-2xl scale-125 opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-                <div className="relative z-10 p-1 rounded-full bg-gradient-to-tr from-emerald-400/40 via-white/20 to-transparent">
+            <div className="flex justify-center mb-8">
+              <div className="relative">
+                <div 
+                  className="absolute inset-0 rounded-full blur-3xl scale-125 opacity-20 animate-pulse"
+                  style={{ backgroundColor: fontColor }}
+                />
+                <div className="relative p-1.5 rounded-full bg-gradient-to-tr from-white/20 via-white/5 to-transparent shadow-2xl">
                     {profile.photo_url ? (
-                      <div className="relative w-36 h-36 rounded-full overflow-hidden border-4 border-black/40">
+                      <div className="relative w-36 h-36 rounded-full overflow-hidden border-2 border-white/10 shadow-inner">
                         <Image 
                           src={profile.photo_url} 
                           alt={profile.name || "Profile"} 
                           fill 
-                          className="object-cover" 
+                          className="object-cover scale-105 hover:scale-100 transition-transform duration-[2s] ease-out" 
                         />
                       </div>
                     ) : (
-                      <div className="w-36 h-36 rounded-full bg-white/10 flex items-center justify-center text-5xl font-light tracking-tighter" style={{ color: fontColor }}>
+                      <div 
+                        className="w-36 h-36 rounded-full bg-white/5 flex items-center justify-center text-4xl font-light tracking-tighter border-2 border-white/10" 
+                        style={{ color: fontColor }}
+                      >
                         {initials}
                       </div>
                     )}
@@ -130,204 +151,211 @@ END:VCARD`;
             </div>
 
             {/* Profile Content */}
-            <div className="text-center space-y-3">
-              <div className="flex items-center justify-center gap-2">
-                <h1 className="text-4xl font-bold tracking-tight leading-tight" style={{ color: fontColor }}>
+            <div className="text-center space-y-2.5">
+              <div className="flex items-center justify-center gap-2.5">
+                <h1 className="text-3xl font-bold tracking-tight leading-tight" style={{ color: fontColor }}>
                   {profile.name}
                 </h1>
-                {isBusiness && <CheckCircle className="w-6 h-6 text-emerald-400 fill-emerald-400/10" />}
+                {isBusiness && <CheckCircle className="w-5 h-5 text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.3)]" />}
               </div>
-              <p className="text-sm font-bold text-emerald-400 uppercase tracking-[0.3em] leading-none">
+              <p className="text-[11px] font-black uppercase tracking-[0.4em] opacity-60 flex items-center justify-center gap-3">
+                <span className="w-2 h-[1px] bg-current" />
                 {profile.title}
+                <span className="w-2 h-[1px] bg-current" />
               </p>
               {profile.company && (
-                <div className="flex items-center justify-center gap-2 pt-1">
-                   <div className="w-1 h-3 rounded-full bg-white/20" />
-                   <p className="text-xs font-semibold tracking-[0.1em] uppercase opacity-70" style={{ color: fontColor }}>
-                     {profile.company}
-                   </p>
-                </div>
+                <p className="text-xs font-medium tracking-wide opacity-40 italic pt-1" style={{ color: fontColor }}>
+                  {profile.company}
+                </p>
               )}
             </div>
 
             {/* Bio Section */}
             {profile.bio && (
-              <div className="mt-12 px-2">
-                  <p className="text-center font-medium leading-[1.8] text-sm tracking-wide text-balance opacity-80" style={{ color: fontColor }}>
+              <div className="mt-8 px-4 border-t border-white/5 pt-8">
+                  <p className="text-center font-normal leading-relaxed text-[13px] tracking-wide text-balance opacity-70" style={{ color: fontColor }}>
                     {profile.bio}
                   </p>
               </div>
             )}
-
-            {/* Command Center Action Grid */}
-            <div className="grid grid-cols-3 gap-5 mt-14">
-              {[
-                { icon: MessageCircle, label: 'WhatsApp', href: profile.whatsapp ? `https://wa.me/${profile.whatsapp}` : null },
-                { icon: Phone, label: t('userDashboard.phone'), href: profile.phone ? `tel:${profile.phone}` : null },
-                { icon: Mail, label: t('userDashboard.email'), href: profile.email ? `mailto:${profile.email}` : null },
-              ].filter(a => a.href).map((action) => (
-                <a
-                  key={action.label}
-                  href={action.href!}
-                  className="flex flex-col items-center gap-4 py-6 rounded-[2.5rem] bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/20 transition-all duration-500 group"
-                >
-                  <action.icon className="w-6 h-6 group-hover:scale-110 transition-transform duration-500" style={{ color: fontColor }} />
-                  <span className="text-[10px] font-black uppercase tracking-widest group-hover:text-emerald-400 transition-colors opacity-50 group-hover:opacity-100" style={{ color: fontColor }}>
-                    {action.label}
-                  </span>
-                </a>
-              ))}
-              
-              {!isBusiness && profile.cv_url && (
-                <a
-                  href={profile.cv_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex flex-col items-center gap-4 py-6 rounded-[2.5rem] bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 hover:border-emerald-500/40 transition-all duration-500 group"
-                >
-                  <Download className="w-6 h-6 text-emerald-400 group-hover:scale-110 transition-transform duration-500" />
-                  <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">
-                    {t('publicCard.downloadCV')}
-                  </span>
-                </a>
-              )}
-            </div>
-
-            {/* Business Features */}
-            {isBusiness && (profile.location_url || profile.google_reviews_url) && (
-              <div className="mt-5 grid grid-cols-2 gap-5">
-                 {profile.location_url && (
-                    <a href={profile.location_url} className="flex items-center justify-center gap-3 py-6 rounded-[2.5rem] bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/20 transition-all duration-500 group">
-                       <MapPin className="w-5 h-5 text-emerald-400" />
-                       <span className="text-[11px] font-black uppercase tracking-widest opacity-70 group-hover:opacity-100" style={{ color: fontColor }}>{t('publicCard.location')}</span>
-                    </a>
-                 )}
-                 {profile.google_reviews_url && (
-                    <a href={profile.google_reviews_url} className="flex items-center justify-center gap-3 py-6 rounded-[2.5rem] bg-indigo-500/10 border border-indigo-500/20 hover:bg-indigo-500/20 hover:border-indigo-500/40 transition-all duration-500 group">
-                       <Star className="w-5 h-5 text-indigo-400 fill-indigo-400/10" />
-                       <span className="text-[11px] font-black text-indigo-400 uppercase tracking-widest">{t('publicCard.reviews')}</span>
-                    </a>
-                 )}
-              </div>
-            )}
-
-            {/* Connectivity Nodes (Links) */}
-            {links && links.length > 0 && (
-              <div className="mt-14 space-y-4">
-                <div className="flex items-center gap-4 mb-4 px-2">
-                   <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                   <span className="text-[11px] font-black uppercase tracking-[0.4em] opacity-50" style={{ color: fontColor }}>{t('publicCard.connectivityHub')}</span>
-                   <div className="flex-1 h-[1px] bg-white/10" />
-                </div>
-                {links.map((link) => (
-                  <a
-                    key={link.id}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-6 px-6 py-6 rounded-[2.5rem] bg-white/[0.03] border border-white/5 hover:bg-white/[0.08] hover:border-emerald-400/20 transition-all duration-700 group relative"
-                  >
-                    <div className="w-14 h-14 rounded-3xl bg-white/5 flex items-center justify-center group-hover:bg-emerald-500 group-hover:text-white transition-all duration-700 border border-white/5">
-                      <Globe className="w-6 h-6 opacity-60 group-hover:opacity-100 group-hover:text-inherit transition-all" style={{ color: fontColor }} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-base font-bold tracking-tight" style={{ color: fontColor }}>
-                        {link.platform}
-                      </p>
-                      <p className="text-[10px] font-black uppercase tracking-widest opacity-40" style={{ color: fontColor }}>{t('publicCard.externalNode')}</p>
-                    </div>
-                    <div className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 group-hover:bg-emerald-500/10 transition-colors">
-                        <ExternalLink className="w-4 h-4 opacity-30 group-hover:opacity-100 group-hover:text-emerald-400 transition-all" style={{ color: fontColor }} />
-                    </div>
-                  </a>
-                ))}
-              </div>
-            )}
-
-            {/* Showcase Section */}
-            {isBusiness && (products.length > 0 || profile.catalogue_url) && (
-              <div className="mt-16 space-y-6">
-                <div className="flex items-center justify-between mb-8 px-2">
-                   <div className="flex items-center gap-4">
-                      <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-                      <span className="text-[11px] font-black uppercase tracking-[0.4em] opacity-50" style={{ color: fontColor }}>{t('publicCard.businessShowcase')}</span>
-                   </div>
-                   {profile.catalogue_url && (
-                     <a 
-                       href={profile.catalogue_url} 
-                       target="_blank" 
-                       rel="noopener noreferrer"
-                       className="flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 text-emerald-300 text-[10px] font-black uppercase tracking-widest hover:bg-emerald-500/[0.15] transition-all"
-                     >
-                       <Download className="w-4 h-4" />
-                       {t('publicCard.viewCatalogue')}
-                     </a>
-                   )}
-                </div>
-                
-                <div className="grid grid-cols-1 gap-5">
-                  {products.map((product) => (
-                    <div key={product.id} className="p-6 rounded-[3rem] bg-white/[0.02] border border-white/5 flex gap-6 hover:bg-white/[0.05] transition-all duration-700 group/prod">
-                       <div className="relative w-24 h-24 rounded-[2rem] bg-white/5 flex items-center justify-center border border-white/5 overflow-hidden group-hover/prod:scale-[1.02] transition-transform duration-700">
-                         {product.image_url ? (
-                           <Image 
-                             src={product.image_url} 
-                             alt={product.name} 
-                             fill
-                             className="object-cover" 
-                           />
-                         ) : (
-                           <Package className="w-10 h-10 text-slate-600 opacity-20" />
-                         )}
-                       </div>
-                       <div className="flex-1 min-w-0 py-2">
-                         <div className="flex items-start justify-between">
-                           <p className="text-base font-bold tracking-tight leading-none" style={{ color: fontColor }}>{product.name}</p>
-                           {product.external_link && (
-                             <a href={product.external_link} target="_blank" rel="noopener noreferrer">
-                               <ExternalLink className="w-4 h-4 opacity-20 hover:text-emerald-400 transition-colors" style={{ color: fontColor }} />
-                             </a>
-                           )}
-                         </div>
-                         <p className="text-xs font-black text-emerald-400 tracking-wider mt-1.5 uppercase opacity-80">{product.price || t('userDashboard.priceOnRequest')}</p>
-                         <p className="text-xs line-clamp-2 mt-3 leading-relaxed font-medium opacity-50" style={{ color: fontColor }}>{product.description}</p>
-                       </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Apple Card Capture Form */}
-            <div className="mt-14 p-0.5 rounded-[3.5rem] bg-gradient-to-tr from-white/10 via-transparent to-white/5">
-                <div className="bg-black/20 rounded-[3.3rem] overflow-hidden">
-                    <LeadCaptureForm userId={profile.id} />
-                </div>
-            </div>
-
-            {/* Primary Action Sheet */}
-            <a 
-              href={vcardUrl} 
-              download={`${profile.name}.vcf`}
-              className="mt-16 w-full flex items-center justify-center gap-5 py-7 rounded-[3rem] bg-emerald-500 text-white font-black uppercase tracking-[0.4em] text-xs shadow-[0_25px_50px_-12px_rgba(16,185,129,0.3)] hover:scale-[1.02] active:scale-95 transition-all duration-700 relative overflow-hidden group/save"
-            >
-               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[150%] group-hover/save:translate-x-[150%] transition-transform duration-[1.2s] ease-in-out" />
-               <Download className="w-6 h-6" />
-               {t('publicCard.completeConnect')}
-            </a>
           </div>
         </div>
 
-        {/* Global Footer */}
-        <div className="text-center mt-14 mb-14">
+        {/* SECTION 2: COMMAND HUB (GRID ACTIONS) */}
+        <div className="grid grid-cols-3 gap-4">
+          {[
+            { icon: MessageCircle, label: 'WhatsApp', href: profile.whatsapp ? `https://wa.me/${profile.whatsapp}` : null, color: '#25D366' },
+            { icon: Phone, label: t('userDashboard.phone'), href: profile.phone ? `tel:${profile.phone}` : null, color: fontColor },
+            { icon: Mail, label: t('userDashboard.email'), href: profile.email ? `mailto:${profile.email}` : null, color: fontColor },
+          ].filter(a => a.href).map((action) => (
+            <a
+              key={action.label}
+              href={action.href!}
+              className="flex flex-col items-center justify-center aspect-square rounded-[2rem] bg-white/[0.03] border border-white/5 hover:bg-white/[0.08] hover:border-white/20 transition-all duration-500 group relative overflow-hidden"
+              style={{ color: fontColor }}
+            >
+              <div 
+                className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-10 transition-opacity duration-500"
+                style={{ backgroundColor: action.color }}
+              />
+              <action.icon className="w-6 h-6 mb-3 group-hover:scale-110 transition-transform duration-500" />
+              <span className="text-[9px] font-black uppercase tracking-widest opacity-40 group-hover:opacity-100 transition-opacity">
+                {action.label}
+              </span>
+            </a>
+          ))}
+        </div>
+
+        {/* SECTION 3: BUSINESS ASSETS */}
+        {(profile.cv_url || profile.location_url || profile.google_reviews_url) && (
+          <div className="grid grid-cols-1 gap-4">
+             {profile.cv_url && (
+               <a
+                 href={profile.cv_url}
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 className="flex items-center gap-6 px-7 py-6 rounded-[2rem] bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all duration-500 group"
+               >
+                 <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
+                    <Download className="w-6 h-6" />
+                 </div>
+                 <div className="flex-1">
+                   <p className="text-sm font-bold text-white tracking-tight">{t('publicCard.downloadCV') || "Curriculum Vitae"}</p>
+                   <p className="text-[9px] font-black uppercase tracking-widest text-emerald-400/60 mt-0.5">PDF DOCUMENT • SECURE</p>
+                 </div>
+               </a>
+             )}
+             
+             <div className="grid grid-cols-2 gap-4">
+                {profile.location_url && (
+                  <a href={profile.location_url} className="flex flex-col items-center gap-3 py-6 rounded-[2rem] bg-white/[0.03] border border-white/5 hover:border-white/20 transition-all duration-500 group">
+                    <MapPin className="w-5 h-5 text-emerald-400" />
+                    <span className="text-[10px] font-black uppercase tracking-widest opacity-50 group-hover:opacity-100" style={{ color: fontColor }}>{t('publicCard.location')}</span>
+                  </a>
+                )}
+                {profile.google_reviews_url && (
+                  <a href={profile.google_reviews_url} className="flex flex-col items-center gap-3 py-6 rounded-[2rem] bg-white/[0.03] border border-white/5 hover:border-white/20 transition-all duration-500 group">
+                    <Star className="w-5 h-5 text-amber-400 fill-amber-400/20" />
+                    <span className="text-[10px] font-black uppercase tracking-widest opacity-50 group-hover:opacity-100" style={{ color: fontColor }}>{t('publicCard.reviews')}</span>
+                  </a>
+                )}
+             </div>
+          </div>
+        )}
+
+        {/* SECTION 4: CONNECTIVITY NODES (LINKS) */}
+        {links && links.length > 0 && (
+          <div className="space-y-4">
+            <div className="flex items-center gap-4 px-2">
+               <span className="text-[10px] font-black uppercase tracking-[0.4em] opacity-30" style={{ color: fontColor }}>{t('publicCard.connectivityHub')}</span>
+               <div className="flex-1 h-[1px] bg-white/5" />
+            </div>
+            {links.map((link) => (
+              <a
+                key={link.id}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-5 px-6 py-5 rounded-[2.2rem] bg-white/[0.02] border border-white/5 hover:bg-white/[0.05] hover:border-white/10 transition-all duration-700 group relative overflow-hidden"
+              >
+                <div className="w-12 h-12 rounded-[1.2rem] bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-all duration-700">
+                  <Globe className="w-5 h-5 opacity-40 group-hover:opacity-100 transition-opacity" style={{ color: fontColor }} />
+                </div>
+                <div className="flex-1">
+                  <p className="text-[15px] font-bold tracking-tight" style={{ color: fontColor }}>
+                    {link.platform}
+                  </p>
+                  <p className="text-[10px] font-medium opacity-30 tracking-wide" style={{ color: fontColor }}>{t('publicCard.externalNode') || "Connect Externally"}</p>
+                </div>
+                <ExternalLink className="w-4 h-4 opacity-10 group-hover:opacity-40 transition-opacity" style={{ color: fontColor }} />
+              </a>
+            ))}
+          </div>
+        )}
+
+        {/* SECTION 5: SHOWCASE */}
+        {isBusiness && (products.length > 0 || profile.catalogue_url) && (
+          <div className="space-y-4 pt-4">
+            <div className="flex items-center justify-between px-2">
+               <span className="text-[10px] font-black uppercase tracking-[0.4em] opacity-30" style={{ color: fontColor }}>{t('publicCard.businessShowcase')}</span>
+               {profile.catalogue_url && (
+                 <a 
+                   href={profile.catalogue_url} 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   className="text-emerald-400 text-[10px] font-bold uppercase tracking-widest hover:opacity-80 transition-opacity flex items-center gap-2"
+                 >
+                   <Download className="w-3.5 h-3.5" />
+                   {t('publicCard.viewCatalogue')}
+                 </a>
+               )}
+            </div>
+            
+            <div className="space-y-3">
+              {products.map((product) => (
+                <div key={product.id} className="p-5 rounded-[2.2rem] bg-white/[0.02] border border-white/5 flex gap-5 hover:bg-white/[0.04] transition-all duration-700 group/prod">
+                   <div className="relative w-20 h-20 rounded-[1.5rem] bg-white/5 border border-white/5 overflow-hidden">
+                     {product.image_url ? (
+                       <Image 
+                         src={product.image_url} 
+                         alt={product.name} 
+                         fill
+                         className="object-cover group-hover/prod:scale-110 transition-transform duration-[2s]" 
+                       />
+                     ) : (
+                       <Package className="w-8 h-8 opacity-10 m-auto mt-6" />
+                     )}
+                   </div>
+                   <div className="flex-1 min-w-0 py-1">
+                     <div className="flex items-start justify-between">
+                       <p className="text-[14px] font-bold tracking-tight truncate" style={{ color: fontColor }}>{product.name}</p>
+                       <p className="text-[11px] font-black text-emerald-400/80 ml-2">{product.price || t('userDashboard.priceOnRequest')}</p>
+                     </div>
+                     <p className="text-[11px] line-clamp-2 mt-2 leading-relaxed opacity-40 font-medium" style={{ color: fontColor }}>{product.description}</p>
+                     {product.external_link && (
+                       <a 
+                        href={product.external_link} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 mt-3 text-[9px] font-black uppercase tracking-widest text-emerald-400/60 hover:text-emerald-400 transition-colors"
+                       >
+                         {t('publicCard.viewProduct') || "View Item"}
+                         <ExternalLink className="w-3 h-3" />
+                       </a>
+                     )}
+                   </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* SECTION 6: CAPTURE HUB */}
+        <div className="rounded-[2.5rem] overflow-hidden">
+            <LeadCaptureForm userId={profile.id} />
+        </div>
+
+        {/* ACTION SHEET: SAVE TO CONTACTS */}
+        <div className="pt-8">
+          <a 
+            href={vcardUrl} 
+            download={`${profile.name}.vcf`}
+            className="w-full flex items-center justify-center gap-4 py-6 rounded-[2.2rem] bg-emerald-500 text-white font-black uppercase tracking-[0.3em] text-[11px] shadow-[0_20px_40px_-10px_rgba(16,185,129,0.3)] hover:translate-y-[-2px] active:translate-y-[0px] transition-all duration-500 group overflow-hidden relative"
+          >
+             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[150%] group-hover:translate-x-[150%] transition-transform duration-[1s] ease-in-out" />
+             <Download className="w-5 h-5 group-hover:bounce" />
+             {t('publicCard.completeConnect')}
+          </a>
+        </div>
+
+        {/* GLOBAL FOOTER */}
+        <div className="text-center pt-8 pb-12">
           <Link
             href="/"
-            className="inline-flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.6em] transition-all hover:text-white"
+            className="inline-flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.5em] opacity-20 hover:opacity-40 transition-opacity"
             style={{ color: fontColor }}
           >
-            <span className="w-10 h-[1px] bg-white/10" />
-            CARTALIK <span className="text-emerald-400 opacity-60 font-medium tracking-[0.2em]">{t('publicCard.poweredBy')}</span>
-            <span className="w-10 h-[1px] bg-white/10" />
+            CARTALIK • {t('publicCard.poweredBy')}
           </Link>
         </div>
       </div>
